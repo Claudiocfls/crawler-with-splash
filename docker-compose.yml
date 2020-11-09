@@ -1,0 +1,14 @@
+version: '3'
+services:
+  crawler:
+    build: .
+    ports:
+      - "6023:6023"
+    environment:
+      - TARGET_DIR=./results
+      - TAG=<<choose a tag name. e.g. something_test_1>>
+      - ALLOWED_DOMAIN=<<choose a domain allowed to crawl. e.g. www.something.com>>
+      - INITIAL_URL=<<choose a initial url. E.g. https://www.something.com>>
+      - DEPTH_LIMIT=<<choose a depth limit. e.g. 10>>
+    volumes:
+      - /root/crawler_data:/usr/src/crawler/results
