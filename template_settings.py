@@ -9,6 +9,8 @@ BOT_NAME = 'generic_crawler'
 SPIDER_MODULES = ['generic_crawler.spiders']
 NEWSPIDER_MODULE = 'generic_crawler.spiders'
 
+SPLASH_URL = 'http://localhost:8050/'
+
 # necessary to use BFO (scrapy use DFO by default)
 DEPTH_PRIORITY = 1
 SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
@@ -54,9 +56,12 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
-#    'generic_crawler.middlewares.GenericCrawlerSpiderMiddleware': 543,
-# }
+SPIDER_MIDDLEWARES = {
+    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+}
+
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -64,6 +69,9 @@ DOWNLOADER_MIDDLEWARES = {
     'generic_crawler.middlewares.downloader_middlewares.drop_query_strings.DropQueryStringsMiddleware': 70,
     'generic_crawler.middlewares.downloader_middlewares.save_on_database.SaveOnDatabaseMiddleware': 91,
     'generic_crawler.middlewares.downloader_middlewares.ua_rotation.RotateUserAgentMiddleware': 510,
+    'scrapy_splash.SplashCookiesMiddleware': 723,
+    'scrapy_splash.SplashMiddleware': 725,
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
 }
 
 USER_AGENT_CHOICES = [

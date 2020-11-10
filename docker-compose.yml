@@ -12,3 +12,9 @@ services:
       - DEPTH_LIMIT=<<choose a depth limit. e.g. 10>>
     volumes:
       - /root/crawler_data:/usr/src/crawler/results
+    depends_on: 
+      - splash
+  splash:
+    image: "scrapinghub/splash"
+    ports:
+      - "8050:8050"
